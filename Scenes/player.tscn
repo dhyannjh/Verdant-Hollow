@@ -1,24 +1,60 @@
 [gd_scene format=3 uid="uid://bw8ay3ix4sl52"]
 
 [ext_resource type="Script" uid="uid://b7eab7by1aa2m" path="res://Scripts/player_script.gd" id="1_v0iea"]
+[ext_resource type="PackedScene" uid="uid://bc1d2qj7gwi27" path="res://Scenes/Components/hitbox_component.scn" id="2_6t5aa"]
+[ext_resource type="PackedScene" uid="uid://nkwsar7i24d" path="res://Scenes/Components/hurtbox_component.tscn" id="2_vgqql"]
+[ext_resource type="PackedScene" uid="uid://doqsvw46flcul" path="res://Scenes/Components/health_component.scn" id="3_vgqql"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_f60y1"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f60y1"]
-radius = 34.0
-height = 174.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v0iea"]
+size = Vector2(67, 86)
 
-[node name="player" type="CharacterBody2D" unique_id=1854332094]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vgqql"]
+radius = 16.0
+height = 38.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6t5aa"]
+radius = 30.0
+height = 74.0
+
+[node name="player" type="CharacterBody2D" unique_id=1854332094 groups=["player"]]
+z_index = 100
+z_as_relative = false
 script = ExtResource("1_v0iea")
 speed = 500.0
 friction = 2000.0
 jump_velocity = -900.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1575457229]
-position = Vector2(-0.5, 2.0000076)
-scale = Vector2(69, 173.99998)
+position = Vector2(0.5000038, -43.5)
+scale = Vector2(69, 87)
 texture = SubResource("CanvasTexture_f60y1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1218154240]
-position = Vector2(-1, 2)
-shape = SubResource("CapsuleShape2D_f60y1")
+position = Vector2(0.5, -43)
+shape = SubResource("RectangleShape2D_v0iea")
+
+[node name="AttackPivot" type="Node2D" parent="." unique_id=524993961]
+position = Vector2(0, -43)
+
+[node name="HitboxComponent" parent="AttackPivot" unique_id=170323106 instance=ExtResource("2_vgqql")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackPivot/HitboxComponent" unique_id=1236109469]
+position = Vector2(86, 0)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_vgqql")
+
+[node name="HealthComponent" parent="." unique_id=1957230613 instance=ExtResource("3_vgqql")]
+position = Vector2(0, -43)
+
+[node name="HurtboxComponent" parent="." unique_id=210593436 node_paths=PackedStringArray("health_component") instance=ExtResource("2_6t5aa")]
+position = Vector2(0, -43)
+monitoring = true
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=2084340829]
+position = Vector2(0, 3.5762787e-07)
+shape = SubResource("CapsuleShape2D_6t5aa")
+
+[connection signal="area_entered" from="AttackPivot/HitboxComponent" to="AttackPivot/HitboxComponent" method="_on_area_entered"]

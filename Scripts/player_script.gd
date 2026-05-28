@@ -1,8 +1,13 @@
 extends CharacterBody2D
 
+# --- REFERENCES ---
+@onready var attack_pivot: Node2D = $AttackPivot
+@onready var hurt_box: Area2D = $AttackPivot/HitboxComponent
+@onready var hitbox: hitboxComponent = $AttackPivot/HitboxComponent
+
 # --- MOVEMENT SETTINGS ---
 @export var speed := 100.0
-@export var acceleration := 600.0
+@export var acceleration := 1000.0
 @export var friction := 1500.0
 
 # --- JUMP SETTINGS ---
@@ -12,7 +17,7 @@ extends CharacterBody2D
 
 # --- COYOTE + BUFFER ---
 @export var coyote_time := 0.1
-@export var jump_buffer_time := 0.05
+@export var jump_buffer_time := 0.1
 
 # --- STATE ---
 var coyote_timer := 0.0
@@ -21,20 +26,29 @@ var jump_buffer_timer := 0.0
 var base_velocity = Vector2.ZERO
 var knockback_vel = Vector2.ZERO
 
+var can_attack = true
+var is_attacking = false
+
 # --- INPUT CACHE (future AI-ready) ---
 var move_input := 0.0
 var jump_pressed := false
 var jump_released := false
 var attack_pressed := false
+var up_or_down := 0.0
 
+# --- ATTACK SETTINGS ---
+var attack_duration := 0.1
+var attack_cooldown := 0.2 
 
 func _physics_process(delta: float) -> void:
 	read_input()
 	handle_movement(delta)
 	apply_gravity(delta)
 	handle_jump(delta)
+	handle_attack()
 	
 	velocity = base_velocity + knockback_vel
+	knockback_vel = knockback_vel.move_toward(Vector2(0, 0), 900 * delta)
 	move_and_slide()
 
 
@@ -45,9 +59,10 @@ func read_input():
 	move_input = Input.get_axis("left", "right")
 	jump_pressed = Input.is_action_just_pressed("jump")
 	jump_released = Input.is_action_just_released("jump")
-	attack_pressed = Input.is_action_just_pressed("M1")
-	
-	
+	attack_pressed = Input.is_action_just_pressed("attack")
+	up_or_down = Input.get_axis("down", "up")
+
+
 # =========================
 # MOVEMENT
 # =========================
@@ -69,6 +84,9 @@ func handle_movement(delta):
 				)
 	else:
 		base_velocity.x = move_toward(base_velocity.x, 0, friction * delta)
+
+func apply_knockback(force : Vector2):
+	knockback_vel += force
 
 
 # =========================
@@ -114,3 +132,27 @@ func handle_jump(delta):
 	if is_on_ceiling():
 		base_velocity.y = 70
 		get_viewport().get_camera_2d().shake(0.7)
+
+
+# =========================
+# ATTACK
+# =========================
+
+func handle_attack():
+	if attack_pressed and can_attack:
+		attack()
+
+
+func attack():
+	can_attack = false
+	is_attacking = true
+	
+	hitbox.activate()
+	print("Atack")
+	await get_tree().create_timer(attack_duration).timeout
+
+	hitbox.deactivate()
+	await get_tree().create_timer(attack_cooldown).timeout
+	
+	is_attacking = false
+	can_attack = true

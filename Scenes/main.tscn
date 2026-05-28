@@ -1,20 +1,58 @@
 [gd_scene format=3 uid="uid://cq4tyqskoxdww"]
 
 [ext_resource type="PackedScene" uid="uid://bw8ay3ix4sl52" path="res://Scenes/player.tscn" id="1_jjgbg"]
+[ext_resource type="Script" uid="uid://x4hmppuhgxee" path="res://Scripts/camera_script.gd" id="2_bo1nx"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_jjgbg"]
-size = Vector2(1126, 70)
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jjgbg"]
+distance = -144.0
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_bo1nx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bo1nx"]
+size = Vector2(232, 280)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_8gbba"]
 
 [node name="main" type="Node2D" unique_id=604897856]
 
 [node name="player" parent="." unique_id=1854332094 instance=ExtResource("1_jjgbg")]
-position = Vector2(765, 272)
+position = Vector2(352, 72)
+scale = Vector2(1, 1.0049732)
+air_control = 1.0
 
 [node name="ColissionLayer" type="Node2D" parent="." unique_id=856238426]
 position = Vector2(765, 272)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ColissionLayer" unique_id=313807098]
-position = Vector2(30, 718)
-scale = Vector2(6.392754, 1)
-shape = SubResource("RectangleShape2D_jjgbg")
-debug_color = Color(0, 0.6, 0.69803923, 0.5411765)
+[node name="StaticBody2D" type="StaticBody2D" parent="ColissionLayer" unique_id=931920256]
+position = Vector2(3, 0)
+scale = Vector2(-101.44934, 0.7988961)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ColissionLayer/StaticBody2D" unique_id=1651474655]
+shape = SubResource("WorldBoundaryShape2D_jjgbg")
+
+[node name="Sprite2D" type="Sprite2D" parent="ColissionLayer/StaticBody2D" unique_id=1107819084]
+modulate = Color(0.010684298, 0.10536524, 0.22439614, 1)
+position = Vector2(407.99982, 867.8749)
+scale = Vector2(4688, 1448.2498)
+texture = SubResource("CanvasTexture_bo1nx")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="ColissionLayer" unique_id=855705578]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ColissionLayer/StaticBody2D2" unique_id=1535119894]
+position = Vector2(-377, -20)
+shape = SubResource("RectangleShape2D_bo1nx")
+
+[node name="Sprite2D" type="Sprite2D" parent="ColissionLayer/StaticBody2D2" unique_id=1412578421]
+modulate = Color(0.011764706, 0.105882354, 0.22352941, 1)
+position = Vector2(-377.98816, -21.087315)
+scale = Vector2(233.97633, 277.82535)
+texture = SubResource("CanvasTexture_8gbba")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=2129905287 node_paths=PackedStringArray("target")]
+position = Vector2(768, 272)
+rotation = 3.1415927
+scale = Vector2(101.44934, -0.7988961)
+position_smoothing_enabled = true
+position_smoothing_speed = 7.0
+script = ExtResource("2_bo1nx")
+target = NodePath("../player")

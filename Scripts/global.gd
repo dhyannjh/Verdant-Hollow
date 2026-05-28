@@ -1,3 +1,3 @@
 extends Node
 
-@export var gravity := 1000
+@export var gravity := 1200
