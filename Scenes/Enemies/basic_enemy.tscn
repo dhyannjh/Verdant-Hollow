@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://b2li1mjvuvspb"]
+
+[ext_resource type="PackedScene" uid="uid://dfxl7iq462xje" path="res://Scenes/Enemies/enemy.scn" id="1_px3k0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_px3k0"]
+size = Vector2(16, 15.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jln43"]
+size = Vector2(16, 15.5)
+
+[node name="BasicEnemy" unique_id=2075215176 instance=ExtResource("1_px3k0")]
+scale = Vector2(1, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" parent_id_path=PackedInt32Array(210593436) index="0" unique_id=668776078]
+position = Vector2(0, -7.75)
+shape = SubResource("RectangleShape2D_px3k0")
+
+[node name="Sprite2D" parent="." index="1" unique_id=507334354]
+position = Vector2(0, -7.875)
+scale = Vector2(1, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" parent_id_path=PackedInt32Array(170323106) index="0" unique_id=2007790118]
+position = Vector2(0, -7.75)
+shape = SubResource("RectangleShape2D_jln43")

@@ -5,7 +5,10 @@
 [ext_resource type="PackedScene" uid="uid://nkwsar7i24d" path="res://Scenes/Components/hurtbox_component.tscn" id="2_vgqql"]
 [ext_resource type="PackedScene" uid="uid://doqsvw46flcul" path="res://Scenes/Components/health_component.scn" id="3_vgqql"]
 
-[sub_resource type="CanvasTexture" id="CanvasTexture_f60y1"]
+[sub_resource type="Gradient" id="Gradient_vgqql"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fkybt"]
+gradient = SubResource("Gradient_vgqql")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v0iea"]
 size = Vector2(67, 86)
@@ -27,9 +30,10 @@ friction = 2000.0
 jump_velocity = -900.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1575457229]
-position = Vector2(0.5000038, -43.5)
-scale = Vector2(69, 87)
-texture = SubResource("CanvasTexture_f60y1")
+position = Vector2(0.44807163, -42.99968)
+rotation = 0.0007130531
+scale = Vector2(0.26763627, 87)
+texture = SubResource("GradientTexture1D_fkybt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1218154240]
 position = Vector2(0.5, -43)
@@ -42,8 +46,8 @@ position = Vector2(0, -43)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackPivot/HitboxComponent" unique_id=1236109469]
 position = Vector2(86, 0)
-rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_vgqql")
+debug_color = Color(0.9019608, 0.23921569, 0.5058824, 0.6117647)
 
 [node name="HealthComponent" parent="." unique_id=1957230613 instance=ExtResource("3_vgqql")]
 position = Vector2(0, -43)
@@ -56,5 +60,6 @@ health_component = NodePath("../HealthComponent")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=2084340829]
 position = Vector2(0, 3.5762787e-07)
 shape = SubResource("CapsuleShape2D_6t5aa")
+debug_color = Color(0, 0.6392157, 0.39215687, 0.75686276)
 
 [connection signal="area_entered" from="AttackPivot/HitboxComponent" to="AttackPivot/HitboxComponent" method="_on_area_entered"]

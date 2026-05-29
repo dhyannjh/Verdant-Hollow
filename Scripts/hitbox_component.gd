@@ -4,6 +4,8 @@ class_name hitboxComponent
 @export var attack_damage := 1
 @export var knockback : Vector2 = Vector2(0, 0)
 
+@export var activate_on_start : bool = false
+
 var already_hit = []
 
 func activate():
@@ -17,6 +19,10 @@ func deactivate():
 
 func _ready() -> void:
 	monitoring = false
+	if activate_on_start:
+		activate()
+	else:
+		return
 
 func _on_area_entered(area) -> void:
 	

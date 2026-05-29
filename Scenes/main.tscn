@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bw8ay3ix4sl52" path="res://Scenes/player.tscn" id="1_jjgbg"]
 [ext_resource type="Script" uid="uid://x4hmppuhgxee" path="res://Scripts/camera_script.gd" id="2_bo1nx"]
+[ext_resource type="PackedScene" uid="uid://b2li1mjvuvspb" path="res://Scenes/Enemies/basic_enemy.tscn" id="3_8gbba"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jjgbg"]
 distance = -144.0
@@ -18,6 +19,7 @@ size = Vector2(232, 280)
 [node name="player" parent="." unique_id=1854332094 instance=ExtResource("1_jjgbg")]
 position = Vector2(352, 72)
 scale = Vector2(1, 1.0049732)
+acceleration = 1200.0
 air_control = 1.0
 
 [node name="ColissionLayer" type="Node2D" parent="." unique_id=856238426]
@@ -56,3 +58,6 @@ position_smoothing_enabled = true
 position_smoothing_speed = 7.0
 script = ExtResource("2_bo1nx")
 target = NodePath("../player")
+
+[node name="BasicEnemy" parent="." unique_id=2075215176 instance=ExtResource("3_8gbba")]
+position = Vector2(1280, 336)

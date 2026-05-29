@@ -4,6 +4,7 @@ extends CharacterBody2D
 @onready var attack_pivot: Node2D = $AttackPivot
 @onready var hurt_box: Area2D = $AttackPivot/HitboxComponent
 @onready var hitbox: hitboxComponent = $AttackPivot/HitboxComponent
+@onready var sprite: Sprite2D = $Sprite2D
 
 # --- MOVEMENT SETTINGS ---
 @export var speed := 100.0
@@ -46,6 +47,7 @@ func _physics_process(delta: float) -> void:
 	apply_gravity(delta)
 	handle_jump(delta)
 	handle_attack()
+	handle_animations()
 	
 	velocity = base_velocity + knockback_vel
 	knockback_vel = knockback_vel.move_toward(Vector2(0, 0), 900 * delta)
@@ -142,8 +144,29 @@ func handle_attack():
 	if attack_pressed and can_attack:
 		attack()
 
+func manage_attack_dir():
+	
+	print(up_or_down)
+	
+	if up_or_down < 0 and not is_on_floor():
+		attack_pivot.rotation_degrees = 90
+		do_pogo()
+		
+	elif up_or_down > 0:
+		attack_pivot.rotation_degrees = -90
+		
+	else:
+		if sprite.flip_h:
+			attack_pivot.rotation_degrees = 180
+		else:
+			attack_pivot.rotation_degrees = 0
+
+func do_pogo():
+	pass
 
 func attack():
+	manage_attack_dir()
+	
 	can_attack = false
 	is_attacking = true
 	
@@ -156,3 +179,23 @@ func attack():
 	
 	is_attacking = false
 	can_attack = true
+
+# =========================
+# ANIMATIONS
+# =========================
+
+func handle_animations():
+	if move_input < 0:
+		sprite.flip_h = true
+	elif move_input > 0:
+		sprite.flip_h = false
+
+
+# =========================
+# UPON HIT
+# =========================
+
+func upon_hit(health):
+	sprite.modulate.g = 100
+	
+	
