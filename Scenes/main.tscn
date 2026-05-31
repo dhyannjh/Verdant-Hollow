@@ -17,7 +17,7 @@ size = Vector2(232, 280)
 [node name="main" type="Node2D" unique_id=604897856]
 
 [node name="player" parent="." unique_id=1854332094 instance=ExtResource("1_jjgbg")]
-position = Vector2(352, 72)
+position = Vector2(648, 384)
 scale = Vector2(1, 1.0049732)
 acceleration = 1200.0
 air_control = 1.0
@@ -39,6 +39,7 @@ scale = Vector2(4688, 1448.2498)
 texture = SubResource("CanvasTexture_bo1nx")
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="ColissionLayer" unique_id=855705578]
+position = Vector2(99, 48)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ColissionLayer/StaticBody2D2" unique_id=1535119894]
 position = Vector2(-377, -20)

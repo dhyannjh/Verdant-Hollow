@@ -5,6 +5,12 @@ extends CharacterBody2D
 @onready var hurt_box: Area2D = $AttackPivot/HitboxComponent
 @onready var hitbox: hitboxComponent = $AttackPivot/HitboxComponent
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+
+# SLASHES
+
+@onready var slash_animation: AnimatedSprite2D = $Slashes/slash_animation
 
 # --- MOVEMENT SETTINGS ---
 @export var speed := 100.0
@@ -24,11 +30,15 @@ extends CharacterBody2D
 var coyote_timer := 0.0
 var jump_buffer_timer := 0.0
 
+enum jump_state {GROUNDED, TAKE_OFF, PEAK, FALLING}
+
 var base_velocity = Vector2.ZERO
 var knockback_vel = Vector2.ZERO
 
 var can_attack = true
 var is_attacking = false
+enum Attack_state {UP, DOWN, FROWARD, NULL}
+var attack_state : Attack_state = Attack_state.NULL
 
 # --- INPUT CACHE (future AI-ready) ---
 var move_input := 0.0
@@ -143,32 +153,67 @@ func handle_jump(delta):
 func handle_attack():
 	if attack_pressed and can_attack:
 		attack()
+	elif not is_attacking:
+		attack_state = Attack_state.NULL
+	
 
-func manage_attack_dir():
+func do_slash(Flip_h : bool, state : Attack_state):
+	
+	if state == Attack_state.FROWARD:
+		slash_animation.rotation_degrees = 0
+		slash_animation.flip_h = Flip_h
+		slash_animation.flip_v = false
+		slash_animation.play("forward")
+		
+	elif state == Attack_state.UP:
+		if Flip_h:
+			animation_player.play("slash_up_left")
+		else:
+			animation_player.play("slash_up_right")
+		slash_animation.play("forward")
+		
+	elif state == Attack_state.DOWN:
+		if Flip_h:
+			animation_player.play("slash_down_left")
+		else:
+			animation_player.play("slash_down_right")
+		slash_animation.play("forward")
+
+func manage_attack_animation():
 	
 	print(up_or_down)
 	
 	if up_or_down < 0 and not is_on_floor():
 		attack_pivot.rotation_degrees = 90
+		animated_sprite.play("down_slash")
+		attack_state = Attack_state.DOWN
 		do_pogo()
 		
 	elif up_or_down > 0:
 		attack_pivot.rotation_degrees = -90
+		animated_sprite.play("up_slash")
+		attack_state = Attack_state.UP
 		
 	else:
-		if sprite.flip_h:
+		animated_sprite.play("forward_slash")
+		attack_state = Attack_state.FROWARD
+		if animated_sprite.flip_h:
 			attack_pivot.rotation_degrees = 180
+			
 		else:
 			attack_pivot.rotation_degrees = 0
+	
+	do_slash(animated_sprite.flip_h, attack_state)
+	await animated_sprite.animation_finished
 
 func do_pogo():
 	pass
 
 func attack():
-	manage_attack_dir()
-	
 	can_attack = false
 	is_attacking = true
+		
+	manage_attack_animation()
 	
 	hitbox.activate()
 	print("Atack")
@@ -179,6 +224,7 @@ func attack():
 	
 	is_attacking = false
 	can_attack = true
+	
 
 # =========================
 # ANIMATIONS
@@ -186,9 +232,46 @@ func attack():
 
 func handle_animations():
 	if move_input < 0:
-		sprite.flip_h = true
+		animated_sprite.flip_h = true
+		animated_sprite.offset.x = 20
 	elif move_input > 0:
-		sprite.flip_h = false
+		animated_sprite.flip_h = false
+		animated_sprite.offset.x = 0 
+		
+	if is_attacking:
+		return
+		
+	if not is_on_floor():
+		var JUMP_STATE = get_jump_state()
+		
+		if JUMP_STATE == jump_state.PEAK:
+			animated_sprite.play("peak")
+			
+		elif JUMP_STATE == jump_state.TAKE_OFF:
+			animated_sprite.play("take_off")
+			
+		else:
+			animated_sprite.play("falling")
+		
+		
+	elif abs(velocity.x) > 5:
+		animated_sprite.play("run")
+	else:
+		animated_sprite.play("idle")
+		
+func get_jump_state() -> jump_state:
+	
+	if is_on_floor():
+		return jump_state.GROUNDED
+	
+	elif velocity.y < 300 and velocity.y > 0:
+		return jump_state.PEAK
+		
+	elif velocity.y < 0:
+		return jump_state.TAKE_OFF
+		
+	else:
+		return jump_state.FALLING
 
 
 # =========================
@@ -197,5 +280,4 @@ func handle_animations():
 
 func upon_hit(health):
 	sprite.modulate.g = 100
-	
 	
