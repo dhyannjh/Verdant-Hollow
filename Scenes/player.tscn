@@ -2,14 +2,23 @@
 
 [ext_resource type="Script" uid="uid://b7eab7by1aa2m" path="res://Scripts/player_script.gd" id="1_v0iea"]
 [ext_resource type="PackedScene" uid="uid://bc1d2qj7gwi27" path="res://Scenes/Components/hitbox_component.scn" id="2_6t5aa"]
-[ext_resource type="Texture2D" uid="uid://7tyn5ma8m1p2" path="res://Assets/Jin kageyama.png" id="2_fkybt"]
+[ext_resource type="Texture2D" uid="uid://7tyn5ma8m1p2" path="res://Assets/Jin_kageyama&vfx/Jin kageyama.png" id="2_fkybt"]
 [ext_resource type="PackedScene" uid="uid://nkwsar7i24d" path="res://Scenes/Components/hurtbox_component.tscn" id="2_vgqql"]
+[ext_resource type="PackedScene" uid="uid://biyog1ka8sb1e" path="res://Scenes/vfx/dash_vfx.tscn" id="2_x3wgy"]
 [ext_resource type="PackedScene" uid="uid://doqsvw46flcul" path="res://Scenes/Components/health_component.scn" id="3_vgqql"]
 
 [sub_resource type="Gradient" id="Gradient_vgqql"]
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_fkybt"]
 gradient = SubResource("Gradient_vgqql")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_83xs0"]
+atlas = ExtResource("2_fkybt")
+region = Rect2(0, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ypfnu"]
+atlas = ExtResource("2_fkybt")
+region = Rect2(0, 768, 256, 256)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fkybt"]
 atlas = ExtResource("2_fkybt")
@@ -101,6 +110,17 @@ region = Rect2(1536, 256, 256, 256)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_qqcod"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_83xs0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ypfnu")
+}],
+"loop": true,
+"name": &"dash",
+"speed": 15.0
+}, {
 "frames": [{
 "duration": 1.5,
 "texture": SubResource("AtlasTexture_fkybt")
@@ -246,9 +266,24 @@ height = 130.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fkybt"]
 size = Vector2(35, 80)
 
+[sub_resource type="Animation" id="Animation_f1ek2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Slashes/slash1:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="Animation" id="Animation_fkybt"]
 resource_name = "slash_down_left"
-length = 0.001
+length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -285,10 +320,22 @@ tracks/2/keys = {
 "update": 0,
 "values": [1.5707964]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Slashes/slash1:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.033333335, 0.23333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
 
 [sub_resource type="Animation" id="Animation_x3wgy"]
 resource_name = "slash_down_right"
-length = 0.001
+length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -325,10 +372,54 @@ tracks/2/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Slashes/slash1:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.033333335, 0.23333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_tx1dd"]
+resource_name = "slash_left"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Slashes/slash1:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.033333335, 0.23333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_gymyn"]
+resource_name = "slash_right"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Slashes/slash1:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.033333335, 0.23333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
 
 [sub_resource type="Animation" id="Animation_3smsa"]
 resource_name = "slash_up_left"
-length = 0.001
+length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -365,10 +456,22 @@ tracks/2/keys = {
 "update": 0,
 "values": [1.5707964]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Slashes/slash1:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.033333335, 0.23333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
 
 [sub_resource type="Animation" id="Animation_8erm5"]
 resource_name = "slash_up_right"
-length = 0.001
+length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -405,11 +508,26 @@ tracks/2/keys = {
 "update": 0,
 "values": [1.5707964]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Slashes/slash1:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.033333335, 0.23333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3smsa"]
 _data = {
+&"RESET": SubResource("Animation_f1ek2"),
 &"slash_down_left": SubResource("Animation_fkybt"),
 &"slash_down_right": SubResource("Animation_x3wgy"),
+&"slash_left": SubResource("Animation_tx1dd"),
+&"slash_right": SubResource("Animation_gymyn"),
 &"slash_up_left": SubResource("Animation_3smsa"),
 &"slash_up_right": SubResource("Animation_8erm5")
 }
@@ -421,6 +539,7 @@ script = ExtResource("1_v0iea")
 speed = 500.0
 acceleration = 1500.0
 friction = 3000.0
+dash_vfx = ExtResource("2_x3wgy")
 jump_velocity = -850.0
 air_control = 1.0
 
@@ -435,25 +554,32 @@ texture = SubResource("GradientTexture1D_fkybt")
 position = Vector2(-4, -50.000004)
 scale = Vector2(0.515, 0.515)
 sprite_frames = SubResource("SpriteFrames_qqcod")
-animation = &"down_slash"
-frame = 1
+animation = &"dash"
+frame_progress = 0.26278198
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1218154240]
 visible = false
-position = Vector2(0, -35.5)
+position = Vector2(0, -35.500004)
 shape = SubResource("RectangleShape2D_v0iea")
 debug_color = Color(0, 0.6, 0.69803923, 0.16078432)
 
 [node name="Slashes" type="Node2D" parent="." unique_id=1922599293]
+modulate = Color(1, 1, 1, 0.85490197)
 position = Vector2(0, -43)
 
 [node name="slash_animation" type="AnimatedSprite2D" parent="Slashes" unique_id=1541011879]
 rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_83xs0")
 animation = &"forward"
-frame = 1
-flip_h = true
+frame = 3
+frame_progress = 1.0
 flip_v = true
+
+[node name="slash1" type="Sprite2D" parent="Slashes" unique_id=1877847959]
+position = Vector2(-0.5000433, 23.5)
+texture = ExtResource("2_fkybt")
+region_enabled = true
+region_rect = Rect2(31.94268, 1336.2401, 1064.2751, 26.35437)
 
 [node name="AttackPivot" type="Node2D" parent="." unique_id=524993961]
 visible = false
@@ -468,7 +594,7 @@ shape = SubResource("CapsuleShape2D_vgqql")
 debug_color = Color(0.9019608, 0.23921569, 0.5058824, 0.21176471)
 
 [node name="HealthComponent" parent="." unique_id=1957230613 instance=ExtResource("3_vgqql")]
-position = Vector2(0, -43)
+position = Vector2(0, -45)
 
 [node name="HurtboxComponent" parent="." unique_id=210593436 node_paths=PackedStringArray("health_component") instance=ExtResource("2_6t5aa")]
 visible = false

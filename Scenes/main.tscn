@@ -20,7 +20,6 @@ size = Vector2(232, 280)
 position = Vector2(648, 384)
 scale = Vector2(1, 1.0049732)
 acceleration = 1200.0
-air_control = 1.0
 
 [node name="ColissionLayer" type="Node2D" parent="." unique_id=856238426]
 position = Vector2(765, 272)

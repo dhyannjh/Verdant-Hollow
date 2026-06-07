@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://biyog1ka8sb1e"]
+
+[ext_resource type="Texture2D" uid="uid://cjvh6r0cjt4ik" path="res://Assets/Jin_kageyama&vfx/kin_kageyama_dash.png" id="1_3obl0"]
+[ext_resource type="Script" uid="uid://cx4y7hxgmg4vt" path="res://Scripts/Effects/dash_vfx.gd" id="2_3oms0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3oms0"]
+atlas = ExtResource("1_3obl0")
+region = Rect2(256, 384, 256, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ikjkk"]
+atlas = ExtResource("1_3obl0")
+region = Rect2(512, 384, 256, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_srfjg"]
+atlas = ExtResource("1_3obl0")
+region = Rect2(768, 384, 256, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8gtp0"]
+atlas = ExtResource("1_3obl0")
+region = Rect2(1024, 384, 256, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tlcbh"]
+atlas = ExtResource("1_3obl0")
+region = Rect2(1280, 384, 256, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5jjd3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3oms0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ikjkk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_srfjg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8gtp0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tlcbh")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"dash",
+"speed": 25.0
+}]
+
+[node name="dash_vfx" type="Node2D" unique_id=332618564]
+
+[node name="dash_animation" type="AnimatedSprite2D" parent="." unique_id=206350377]
+modulate = Color(1, 1, 1, 0.85490197)
+position = Vector2(-12, 0)
+sprite_frames = SubResource("SpriteFrames_5jjd3")
+animation = &"dash"
+autoplay = "dash"
+script = ExtResource("2_3oms0")
+
+[connection signal="animation_finished" from="dash_animation" to="dash_animation" method="_on_animation_finished"]

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://7tyn5ma8m1p2"
-path="res://.godot/imported/Jin kageyama.png-683528ca1493f719ad22b49f44b7b165.ctex"
+path="res://.godot/imported/Jin kageyama.png-ed650cda98a317a69ec3970d6dac9089.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Jin kageyama.png"
-dest_files=["res://.godot/imported/Jin kageyama.png-683528ca1493f719ad22b49f44b7b165.ctex"]
+source_file="res://Assets/Jin_kageyama&vfx/Jin kageyama.png"
+dest_files=["res://.godot/imported/Jin kageyama.png-ed650cda98a317a69ec3970d6dac9089.ctex"]
 
 [params]
 
