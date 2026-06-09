@@ -406,5 +406,12 @@ func get_jump_state() -> jump_state:
 # =========================
 
 func upon_hit(health):
-	sprite.modulate.g = 100
+	animated_sprite.modulate.g = 0.5
+	animated_sprite.modulate.b = 0.5
+	print(self, " hit")
+	
+	await get_tree().create_timer(0.1).timeout
+	
+	animated_sprite.modulate.g = 1
+	animated_sprite.modulate.b = 1
 	

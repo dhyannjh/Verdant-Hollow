@@ -264,7 +264,7 @@ radius = 62.0
 height = 130.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fkybt"]
-size = Vector2(35, 80)
+size = Vector2(35, 63)
 
 [sub_resource type="Animation" id="Animation_f1ek2"]
 length = 0.001
@@ -582,11 +582,11 @@ region_enabled = true
 region_rect = Rect2(31.94268, 1336.2401, 1064.2751, 26.35437)
 
 [node name="AttackPivot" type="Node2D" parent="." unique_id=524993961]
-visible = false
 position = Vector2(0, -43)
 
 [node name="HitboxComponent" parent="AttackPivot" unique_id=170323106 instance=ExtResource("2_vgqql")]
 position = Vector2(-1, 0)
+knockback = Vector2(300, -300)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackPivot/HitboxComponent" unique_id=1236109469]
 position = Vector2(69, 2)
@@ -597,14 +597,13 @@ debug_color = Color(0.9019608, 0.23921569, 0.5058824, 0.21176471)
 position = Vector2(0, -45)
 
 [node name="HurtboxComponent" parent="." unique_id=210593436 node_paths=PackedStringArray("health_component") instance=ExtResource("2_6t5aa")]
-visible = false
 position = Vector2(0, -43)
 collision_layer = 2
 monitoring = true
 health_component = NodePath("../HealthComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=2084340829]
-position = Vector2(0.5, 5)
+position = Vector2(0.5, 11.5)
 shape = SubResource("RectangleShape2D_fkybt")
 debug_color = Color(0, 0.6392157, 0.39215687, 0.1882353)
 

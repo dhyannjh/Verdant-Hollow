@@ -1,27 +1,45 @@
 [gd_scene format=3 uid="uid://b2li1mjvuvspb"]
 
 [ext_resource type="PackedScene" uid="uid://dfxl7iq462xje" path="res://Scenes/Enemies/enemy.scn" id="1_px3k0"]
+[ext_resource type="Script" uid="uid://dwp1m1ug7indn" path="res://Scripts/enemy_ais/basic_enemy.gd" id="2_jln43"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wm5yt"]
+size = Vector2(60, 62)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_px3k0"]
-size = Vector2(16, 15.5)
+size = Vector2(63, 63)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jln43"]
-size = Vector2(69, 69)
+size = Vector2(141, 121)
 
 [node name="BasicEnemy" unique_id=2075215176 instance=ExtResource("1_px3k0")]
 scale = Vector2(1, 1)
+script = ExtResource("2_jln43")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" parent_id_path=PackedInt32Array(210593436) index="0" unique_id=668776078]
-position = Vector2(0, -7.75)
+[node name="ColorRect" type="ColorRect" parent="." index="0" unique_id=1522591949]
+offset_left = -31.0
+offset_top = -32.0
+offset_right = 31.0
+offset_bottom = 32.0
+color = Color(0.9703916, 0.55973935, 0.4888779, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1" unique_id=1164090735]
+shape = SubResource("RectangleShape2D_wm5yt")
+
+[node name="HurtboxComponent" parent="." index="2" unique_id=210593436]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" index="0" unique_id=668776078]
 shape = SubResource("RectangleShape2D_px3k0")
 
-[node name="Sprite2D" parent="." index="1" unique_id=507334354]
-position = Vector2(0, -7.875)
-scale = Vector2(1, 1)
+[node name="HitboxComponent2" parent="." index="3" unique_id=170323106]
+visible = false
+collision_layer = 2
+activate_on_start = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" parent_id_path=PackedInt32Array(170323106) index="0" unique_id=2007790118]
-position = Vector2(-0.5, -7.5)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent2" index="0" unique_id=2007790118]
 shape = SubResource("RectangleShape2D_jln43")
 
-[node name="CollisionShape2D" parent="." index="4" unique_id=1117335709]
-position = Vector2(1.500001, -9.5)
+[node name="HealthComponent" parent="." index="4" unique_id=1957230613]
+visible = false
+max_health = 20

@@ -21,8 +21,6 @@ func _ready() -> void:
 	monitoring = false
 	if activate_on_start:
 		activate()
-	else:
-		return
 
 func _on_area_entered(area) -> void:
 	
